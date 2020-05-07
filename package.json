@@ -1,0 +1,20 @@
+{
+  "name": "picontrolbot",
+  "version": "1.0.0",
+  "description": "Javascript version of piControlBot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JZ-Software",
+  "license": "MIT",
+  "dependencies": {
+    "google-tts-api": "0.0.4",
+    "ip": "^1.1.5",
+    "public-ip": "^4.0.1",
+    "speedtest-net": "^2.1.1",
+    "systeminformation": "^4.24.2",
+    "telegraf": "^3.38.0",
+    "telegraf-command-parts": "^1.0.3"
+  }
+}
