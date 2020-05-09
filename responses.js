@@ -16,11 +16,23 @@ class Responses{
             ctx.reply(`Local IP: ${ip.address()}\nPublic IP: ${externalIp}`);
         })();
     } 
-    getRestart(ctx){
-        require('child_process').exec('shutdown now -r', console.log)
+    getRestart(ctx, Bot){
+        if(Bot.adminId==ctx.from.id){
+            ctx.reply("Restarting the server");
+            require('child_process').exec('shutdown now -r', console.log);
+        }
+        else{
+            ctx.reply("You must be an administrator to run this command");
+        }    
     } 
-    getShutdown(ctx){
-        require('child_process').exec('shutdown now', console.log)
+    getShutdown(ctx, Bot){
+        if(Bot.adminId==ctx.from.id){
+            ctx.reply("Server shutdown");
+            require('child_process').exec('shutdown now', console.log);
+        }    
+        else{
+            ctx.reply("You must be an administrator to run this command");
+        }
     } 
     getSpeedTest(ctx, speedTest, options){
         ctx.reply("Speedtest started...");
@@ -85,6 +97,11 @@ class Responses{
         .catch(function (err) {
             console.error(err.stack);
         });
+    }
+    getQR(ctx, fs, QRCode){
+        QRCode.toDataURL(ctx.state.command.args, function (err, url) {
+            ctx.replyWithPhoto( {source: Buffer.from(url.replace('data:image/png;base64,', ''), 'base64')} )
+        })
     }
 }
 module.exports = Responses;
