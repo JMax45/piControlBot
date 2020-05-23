@@ -9,6 +9,7 @@
   "author": "JZ-Software",
   "license": "MIT",
   "dependencies": {
+    "generate-password": "^1.5.1",
     "google-tts-api": "0.0.4",
     "ip": "^1.1.5",
     "public-ip": "^4.0.1",

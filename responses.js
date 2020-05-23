@@ -2,6 +2,20 @@ class Responses{
     constructor(){
 
     }
+    start(ctx, Bot, fs){
+        if(Bot.adminId==ctx.from.id){
+            ctx.reply("Hello Admin");
+        }
+        else if(Bot.adminId=="undefined"){
+            Bot.adminId = ctx.from.id;
+            let data = JSON.stringify(Bot);
+            fs.writeFileSync('bot.json', data);
+            ctx.reply("Admin id registered");
+        }
+        else{
+            ctx.reply("Admin already registered");
+        }
+    }
     getCpuTwo(ctx, si){
         si.cpuTemperature()
                 .then(data => {
@@ -34,7 +48,11 @@ class Responses{
             ctx.reply("You must be an administrator to run this command");
         }
     } 
-    getSpeedTest(ctx, speedTest, options){
+    getSpeedTest(ctx, speedTest){
+        const options = {
+            acceptLicense: true,
+            acceptGdpr: true
+        }
         ctx.reply("Speedtest started...");
         (async () => {
             try {
@@ -102,6 +120,64 @@ class Responses{
         QRCode.toDataURL(ctx.state.command.args, function (err, url) {
             ctx.replyWithPhoto( {source: Buffer.from(url.replace('data:image/png;base64,', ''), 'base64')} )
         })
+    }
+    password(ctx, passGenerator, markup){
+        if(ctx.state.command.args.length == 0){
+            const message = "Per generare le password usa il seguente formato:\n`/password length numbers symbols lowercase/upercase`\n_Esempio:_ `/password 10 y n lowercase`"
+            ctx.reply(message, markup)
+        }
+        else{
+            console.log("Received password generation request")
+            const parameters = [];
+            for(let i=0; i<ctx.state.command.splitArgs.length; i++){
+                parameters.push(ctx.state.command.splitArgs[i].replace("y", true).replace("n", false))
+            }
+            for(let i=1; i<parameters.length-1; i++){
+                if(parameters[i]=="true"){
+                    parameters[i] = true;
+                }
+                else{
+                    parameters[i] = false;
+                }
+            }
+            // Checks if all parameters are false
+            let check = false;
+            for(let i=0; i<parameters.length; i++){
+                if(parameters[i]==true){
+                    check = true;
+                }
+            }
+            if(check == true){
+                if(parameters[3]=="lowercase"){
+                    parameters[3] = true;
+                    parameters[4] = false;
+                }
+                else{
+                    parameters[3] = false;
+                    parameters[4] = true;
+                }
+                const password = passGenerator.generate({
+                    length: ctx.state.command.splitArgs[0],
+                    numbers: parameters[1],
+                    symbols: parameters[2],
+                    lowercase: parameters[3],
+                    uppercase: parameters[4]
+                });
+                ctx.reply(password)
+                console.log("Password sent")
+            }
+            else{
+                ctx.reply("*Almeno uno dei parametri deve essere true*", markup)
+            }
+        }    
+    }
+    text(ctx){
+        if(ctx.state.command==undefined){
+            ctx.reply("Unknown text");
+        }
+        else{
+            ctx.reply("Unknown command");
+        }    
     }
 }
 module.exports = Responses;
