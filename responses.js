@@ -23,12 +23,15 @@ class Responses{
                 })
                 .catch(error => console.error(error));
     }
-    getIp(ctx, ip, publicIp){
-        let externalIp;
-        (async () => { 
-            externalIp = await publicIp.v4();
-            ctx.reply(`Local IP: ${ip.address()}\nPublic IP: ${externalIp}`);
-        })();
+    getIp(ctx, ipLocal, getIP){
+        var os = require('os');
+        getIP((err, ip) => {
+            if (err) {
+                // every service in the list has failed
+                throw err;
+            }
+            ctx.replyWithMarkdown(`Local IP: ${ipLocal.address()}\nPublic IP: ${ip}\n\`ssh ${os.userInfo().username}@${ip}\``);
+        });
     } 
     getRestart(ctx, Bot){
         if(Bot.adminId==ctx.from.id){

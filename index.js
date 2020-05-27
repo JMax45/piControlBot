@@ -4,7 +4,7 @@ const markup = extra.markdown();
 const commandParts = require('telegraf-command-parts');
 const responses = require("./responses");
 const speedTest = require('speedtest-net');
-const publicIp = require('public-ip');
+const getIP = require('external-ip')();
 const { exec } = require("child_process");
 const googleTTS = require('google-tts-api');
 const QRCode = require("qrcode");
@@ -28,7 +28,7 @@ let Bot = JSON.parse(rawdata);
 
 bot.start((ctx) => { Responses.start(ctx, Bot, fs) })
 bot.command('cpu', (ctx) => { Responses.getCpuTwo(ctx, si) })
-bot.command('ip', (ctx) => { Responses.getIp(ctx, ip, publicIp) })
+bot.command('ip', (ctx) => { Responses.getIp(ctx, ip, getIP) })
 bot.command('restart', (ctx) => { Responses.getRestart(ctx, Bot) })
 bot.command('shutdown', (ctx) => { Responses.getShutdown(ctx, Bot) })
 bot.command('speedtest', (ctx) => { Responses.getSpeedTest(ctx, speedTest) })
