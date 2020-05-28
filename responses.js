@@ -19,9 +19,14 @@ class Responses{
     getCpuTwo(ctx, si){
         si.cpuTemperature()
                 .then(data => {
-                    ctx.reply(`Average temperature: ${data.main}°C\nMaximum temperature: ${data.max}°C`);
+                    const info = [data.main, data.max]
+                    si.cpu()
+                    .then(data => {
+                        console.log(data.manufacturer)
+                        ctx.replyWithMarkdown(`\`${data.manufacturer} ${data.brand}\`\n\nAverage temperature: ${info[0]}°C\nMaximum temperature: ${info[1]}°C`);
+                    })
                 })
-                .catch(error => console.error(error));
+                .catch(error => console.error(error));   
     }
     getIp(ctx, ipLocal, getIP){
         var os = require('os');
