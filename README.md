@@ -28,9 +28,9 @@ Use [Node Package Manager](https://www.npmjs.com/) to install the dependencies:
 npm install
 ```
 ## Configuration
-Put your bot token:
+Put your bot token in __data/bot.json__:
 ```bash
-const bot = new Telegraf("your_token");
+{"token":"yourToken"}
 ```
 You can get one from [@BotFather](https://telegram.me/BotFather).
 
