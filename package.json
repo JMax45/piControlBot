@@ -4,7 +4,7 @@
   "description": "Javascript version of piControlBot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "JZ-Software",
   "license": "MIT",
