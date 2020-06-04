@@ -18,13 +18,22 @@ const scenes = require("./src/scenes")
 var Responses = new responses();
 const stage = new Stage([scenes])
 
-const bot = new Telegraf("1137560908:AAGFjqgqV8vsJC8fYeaM1zIuwacw_CAVdyQ");
+var data = fs.readFileSync('./data/bot.json'),
+    Bot;
+
+try {
+  Bot = JSON.parse(data);
+  console.dir(Bot);
+}
+catch (err) {
+  console.log('There has been an error parsing your JSON.')
+  console.log(err);
+}
+
+const bot = new Telegraf(Bot.token);
 bot.use(commandParts());
 bot.use(session())
 bot.use(stage.middleware())
-
-let rawdata = fs.readFileSync('./data/bot.json');
-let Bot = JSON.parse(rawdata);
 
 bot.start((ctx) => { Responses.start(ctx, Bot, fs) })
 bot.command('cpu', (ctx) => { Responses.getCpuTwo(ctx, si) })

@@ -9,7 +9,7 @@ class Responses{
         else if(Bot.adminId=="undefined"){
             Bot.adminId = ctx.from.id;
             let data = JSON.stringify(Bot);
-            fs.writeFileSync('bot.json', data);
+            fs.writeFileSync('data/bot.json', data);
             ctx.reply("Admin id registered");
         }
         else{
