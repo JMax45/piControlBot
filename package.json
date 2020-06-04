@@ -13,6 +13,7 @@
     "generate-password": "^1.5.1",
     "google-tts-api": "0.0.4",
     "ip": "^1.1.5",
+    "jest": "^26.0.1",
     "public-ip": "^4.0.1",
     "qrcode": "^1.4.4",
     "speedtest-net": "^2.1.1",
