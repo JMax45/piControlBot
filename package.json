@@ -4,7 +4,7 @@
   "description": "Javascript version of piControlBot",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "author": "JZ-Software",
   "license": "MIT",
