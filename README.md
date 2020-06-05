@@ -1,3 +1,5 @@
+![Node.js CI](https://github.com/JMax45/piControlBot/workflows/Node.js%20CI/badge.svg)
+
 # piControlBot
 
 piControlBot is a bot that helps you check the status of your raspberry pi through [Telegram](https://telegram.org/).
