@@ -41,8 +41,6 @@ node index.js
 
 If it is the first time that the bot is launched, you will have to write him /start on Telegram to register your id.
 
-You can also visit the [installation guide](https://github.com/JMax45/piControlBot/blob/master/docs/INSTALLATION.md) to see the complete guide.
-
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
