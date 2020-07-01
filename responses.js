@@ -41,7 +41,7 @@ class Responses{
     getRestart(ctx, Bot){
         if(Bot.adminId==ctx.from.id){
             ctx.reply("Restarting the server");
-            require('child_process').exec('shutdown now -r', console.log);
+            require('child_process').exec('sudo shutdown now -r', console.log);
         }
         else{
             ctx.reply("You must be an administrator to run this command");
@@ -50,7 +50,7 @@ class Responses{
     getShutdown(ctx, Bot){
         if(Bot.adminId==ctx.from.id){
             ctx.reply("Server shutdown");
-            require('child_process').exec('shutdown now', console.log);
+            require('child_process').exec('sudo shutdown now', console.log);
         }    
         else{
             ctx.reply("You must be an administrator to run this command");
