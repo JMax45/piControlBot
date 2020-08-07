@@ -10,9 +10,6 @@ class defaultResponses{
 	}
 }
 
-// Packages that are used by myResponses
-const si = require('systeminformation');
-
 // Define responses here
 class myResponses{
 	constructor(telegraf, jmongo){
@@ -20,48 +17,19 @@ class myResponses{
 		telegraf = new defaultResponses(telegraf);
 
 		// Basic answers stored in the database
-		this.basicAnswers;
-		jmongo.loadAll('responses', (result) => this.basicAnswers = result);
+		let basicAnswers;
+		jmongo.loadAll('responses', (result) => basicAnswers = result);
 
-		telegraf.command('start', (ctx) => {
-			const index = this.basicAnswers.map(e => e.keyword).indexOf('start');
-			ctx.replyWithMarkdown(this.basicAnswers[index].text)
-		});
-		telegraf.command('admin', (ctx) => {
-			jmongo.load('config', { type: 'config' }, (result) => {
-				if(result.admin==undefined){
-					jmongo.changeDocument('config', { type: 'config' }, { admin: ctx.from.id });
-					ctx.reply('You have been registered as an administrator.');
-				}
-				else{
-					ctx.reply('An administrator is already registered.');
-				}
-			})
-		});
-		telegraf.command('cpu', (ctx) => {
-			si.cpu((data) => {
-				const info = {};
-				info.manufacturer = data.manufacturer;
-				info.brand = data.brand;
-				si.cpuTemperature((data) => {
-					info.average = data.main;
-					info.maximum = data.max;
-					info.message = `\`${info.manufacturer} ${info.brand}\`\n\nAverage temperature: ${info.average}°C\nMaximum temperature: ${info.maximum}°C`;
-					ctx.replyWithMarkdown(info.message);
-				})
-			})
-		});
-		telegraf.command('ip', (ctx) => {
-			const getIP = require('external-ip')();
-			const ipLocal = require("ip");
-			const os = require('os');
-			getIP((err, ip) => {
-				if (err) {
-					throw err;
-				}
-				ctx.replyWithMarkdown(`Local IP: ${ipLocal.address()}\nPublic IP: ${ip}\n\`ssh ${os.userInfo().username}@${ip}\``);
+		// Dynamic commands
+		const fs = require('fs');
+		const files = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
+		
+		for(let i=0; i<files.length; i++){
+			const command = require('./commands/'+files[i]);
+			telegraf.command(command.name, (ctx) => {
+				command.execute(ctx, { jmongo, basicAnswers });
 			});
-		});
+		}
 
 		return telegraf;
 	}
