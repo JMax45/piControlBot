@@ -37,7 +37,7 @@ class myResponses{
 					ctx.reply('An administrator is already registered.');
 				}
 			})
-		})
+		});
 		telegraf.command('cpu', (ctx) => {
 			si.cpu((data) => {
 				const info = {};
@@ -50,7 +50,18 @@ class myResponses{
 					ctx.replyWithMarkdown(info.message);
 				})
 			})
-		})
+		});
+		telegraf.command('ip', (ctx) => {
+			const getIP = require('external-ip')();
+			const ipLocal = require("ip");
+			const os = require('os');
+			getIP((err, ip) => {
+				if (err) {
+					throw err;
+				}
+				ctx.replyWithMarkdown(`Local IP: ${ipLocal.address()}\nPublic IP: ${ip}\n\`ssh ${os.userInfo().username}@${ip}\``);
+			});
+		});
 
 		return telegraf;
 	}
