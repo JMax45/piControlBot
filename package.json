@@ -1,0 +1,20 @@
+{
+  "name": "piControlBot",
+  "version": "1.0.0",
+  "description": "A telegram bot to manage your Raspberry Pi.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "Telegram",
+    "RaspberryPi"
+  ],
+  "author": "JMax",
+  "license": "MIT",
+  "dependencies": {
+    "jmongo": "^1.0.5",
+    "telegraf": "^3.38.0"
+  }
+}

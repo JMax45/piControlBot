@@ -1,0 +1,8 @@
+{
+	"token": "your_token",
+	"jmongo": {
+		"url": "your_url",
+		"name": "production",
+		"user": "admin"
+	}
+}
