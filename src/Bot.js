@@ -1,11 +1,11 @@
 class Bot{
 	constructor(){
-		// Configuration
-		this.configuration = require('../config/config.json');
+		// Dotenv
+		require('dotenv').config();
 
 		// Telegraf
 		this.Telegraf = require('telegraf');
-		this.telegraf = new this.Telegraf(this.configuration.token);
+		this.telegraf = new this.Telegraf(process.env.TOKEN);
 
 		// Command parts
 		this.commandParts = require('telegraf-command-parts');
@@ -13,7 +13,7 @@ class Bot{
 
 		// JMongo
 		const JMongo = require('jmongo');
-		const jmongo = new JMongo(this.configuration.jmongo.url, this.configuration.jmongo.name);
+		const jmongo = new JMongo(process.env.JMONGO_URL, process.env.JMONGO_NAME);
 
 		// Responses
 		this.Responses = require('./Responses');
