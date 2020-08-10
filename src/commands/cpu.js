@@ -1,7 +1,9 @@
 const si = require('systeminformation');
 
 module.exports = {
-    name: 'cpu',
+	name: 'cpu',
+	description: 'Get cpu information',
+	public: true,
     execute(ctx){
 		si.cpu((data) => {
 			const info = {};

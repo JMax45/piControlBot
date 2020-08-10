@@ -23,13 +23,14 @@ class myResponses{
 		// Dynamic commands
 		const fs = require('fs');
 		const files = fs.readdirSync('./src/commands').filter(file => file.endsWith('.js'));
-		
+
+		const commands = [];
 		for(let i=0; i<files.length; i++){
 			const command = require('./commands/'+files[i]);
-			telegraf.command(command.name, (ctx) => {
-				command.execute(ctx, { jmongo, basicAnswers });
-			});
+			telegraf.command(command.name, (ctx) => { command.execute(ctx, { jmongo, basicAnswers }) });
+			if(command.public===true){ commands.push({ command: command.name, description: command.description }) };
 		}
+		telegraf.telegram.setMyCommands(commands);
 
 		return telegraf;
 	}
