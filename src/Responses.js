@@ -15,10 +15,10 @@ class myResponses{
 	constructor(telegraf, jmongo){
 		// Default responses, comment out if not needed
 		telegraf = new defaultResponses(telegraf);
-
+		
 		// Basic answers stored in the database
 		let basicAnswers;
-		jmongo.loadAll('responses', (result) => basicAnswers = result);
+		jmongo.loadAll('responses', (result) => basicAnswers = result);		
 
 		// Dynamic commands
 		const fs = require('fs');
@@ -27,7 +27,14 @@ class myResponses{
 		const commands = [];
 		for(let i=0; i<files.length; i++){
 			const command = require('./commands/'+files[i]);
-			telegraf.command(command.name, (ctx) => { command.execute(ctx, { jmongo, basicAnswers }) });
+			telegraf.command(command.name, (ctx) => {
+				// If access is not private then just execute, else check if the user is an admin
+				command.access != 'private' ? command.execute(ctx, { jmongo, basicAnswers }) : 
+				jmongo.load('admins', { id: ctx.from.id }, (result) => {
+					// If admin not found, reply. Else execute
+					result === null ? ctx.reply('You must be an admin to execute this command') : command.execute(ctx, { jmongo, basicAnswers });
+				});
+			});
 			if(command.public===true){ commands.push({ command: command.name, description: command.description }) };
 		}
 		telegraf.telegram.setMyCommands(commands);
