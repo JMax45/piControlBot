@@ -3,6 +3,14 @@ class Bot{
 		// Dotenv
 		require('dotenv').config();
 
+		try{
+			const pmConfig = JSON.parse(process.env.PM_CONFIG);
+			const ProcessManager = require('jz-process-manager');
+			const pm = new ProcessManager(pmConfig.server_url, pmConfig.application_id, pmConfig.auth_key, 2000);
+		} catch (error) {
+			console.log('Process manager skipped');
+		}
+
 		// Telegraf
 		this.Telegraf = require('telegraf');
 		this.telegraf = new this.Telegraf(process.env.TOKEN);
