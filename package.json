@@ -19,7 +19,7 @@
     "google-tts-api": "0.0.4",
     "ip": "^1.1.5",
     "jmongo": "^1.0.5",
-    "jz-process-manager": "0.0.1",
+    "jz-process-manager": "0.0.2",
     "qrcode": "^1.4.4",
     "systeminformation": "^4.26.10",
     "telegraf": "^3.38.0",

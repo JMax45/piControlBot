@@ -6,7 +6,7 @@ class Bot{
 		try{
 			const pmConfig = JSON.parse(process.env.PM_CONFIG);
 			const ProcessManager = require('jz-process-manager');
-			const pm = new ProcessManager(pmConfig.server_url, pmConfig.application_id, pmConfig.auth_key, 2000);
+			const pm = new ProcessManager(pmConfig.server_url, pmConfig.application_id, pmConfig.auth_key, 100);
 		} catch (error) {
 			console.log('Process manager skipped');
 		}
