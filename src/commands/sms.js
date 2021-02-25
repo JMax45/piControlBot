@@ -24,7 +24,7 @@ module.exports = {
                 }
 
                 numbers_filtered.forEach(element => {
-                    const ls = spawn("quack", ["--tool", "sms", "--target", args[0], "--timeout", args[1], "--threads", "10"]);
+                    const ls = spawn("quack", ["--tool", "sms", "--target", element, "--timeout", args[1], "--threads", "10"]);
                     executeBombing(ls);
                 })
             })
