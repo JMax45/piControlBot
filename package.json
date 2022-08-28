@@ -21,7 +21,7 @@
     "ip": "^1.1.5",
     "jz-process-manager": "0.0.5",
     "qrcode": "^1.4.4",
-    "systeminformation": "^4.26.10",
+    "systeminformation": "^5.6.4",
     "telegraf": "^3.38.0",
     "telegraf-command-parts": "^1.0.3"
   }
