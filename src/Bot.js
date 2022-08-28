@@ -1,32 +1,40 @@
-class Bot{
-	constructor(){
-		// Dotenv
-		require('dotenv').config();
+const Byteroo = require('byteroo').default;
 
-		try{
-			const pmConfig = JSON.parse(process.env.PM_CONFIG);
-			const ProcessManager = require('jz-process-manager');
-			const pm = new ProcessManager(pmConfig.server_url, pmConfig.application_id, pmConfig.auth_key, 100);
-		} catch (error) {
-			console.log('Process manager skipped');
-		}
+class Bot {
+  constructor() {
+    // Dotenv
+    require('dotenv').config();
 
-		// Telegraf
-		this.Telegraf = require('telegraf');
-		this.telegraf = new this.Telegraf(process.env.TOKEN);
+    try {
+      const pmConfig = JSON.parse(process.env.PM_CONFIG);
+      const ProcessManager = require('jz-process-manager');
+      const pm = new ProcessManager(
+        pmConfig.server_url,
+        pmConfig.application_id,
+        pmConfig.auth_key,
+        100
+      );
+    } catch (error) {
+      console.log('Process manager skipped');
+    }
 
-		// Command parts
-		this.commandParts = require('telegraf-command-parts');
-		this.telegraf.use(this.commandParts());
+    // Telegraf
+    this.Telegraf = require('telegraf');
+    this.telegraf = new this.Telegraf(process.env.TOKEN);
 
-		// JMongo
-		const JMongo = require('jmongo');
-		const jmongo = new JMongo(process.env.JMONGO_URL, process.env.JMONGO_NAME);
+    // Command parts
+    this.commandParts = require('telegraf-command-parts');
+    this.telegraf.use(this.commandParts());
 
-		// Responses
-		this.Responses = require('./Responses');
-		this.telegraf = new this.Responses(this.telegraf, jmongo);
-	}
+    const storage = new Byteroo({
+      name: 'piControlBot',
+      autocommit: true,
+    });
+
+    // Responses
+    this.Responses = require('./Responses');
+    this.telegraf = new this.Responses(this.telegraf, storage);
+  }
 }
 
 module.exports = Bot;

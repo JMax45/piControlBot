@@ -14,11 +14,11 @@
   "author": "JMax",
   "license": "MIT",
   "dependencies": {
+    "byteroo": "^1.1.0",
     "dotenv": "^8.2.0",
     "external-ip": "^2.3.1",
     "google-tts-api": "0.0.4",
     "ip": "^1.1.5",
-    "jmongo": "^1.0.5",
     "jz-process-manager": "0.0.5",
     "qrcode": "^1.4.4",
     "systeminformation": "^4.26.10",
