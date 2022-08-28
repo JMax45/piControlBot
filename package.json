@@ -17,6 +17,7 @@
     "byteroo": "^1.1.0",
     "dotenv": "^8.2.0",
     "external-ip": "^2.3.1",
+    "geoip-lite": "^1.4.6",
     "google-tts-api": "0.0.4",
     "ip": "^1.1.5",
     "jz-process-manager": "0.0.5",
