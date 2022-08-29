@@ -1,11 +1,13 @@
-module.exports = {
+import command from '../types/command';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
+
+const sms: command = {
   name: 'sms',
   async execute(ctx, params) {
-    const { spawn } = require('child_process');
     const { storage } = params;
     const bannedNumbers = await storage.getContainer('bannedNumbers');
 
-    const args = ctx.state.command.splitArgs;
+    const args: string[] = (ctx as any).state.command.splitArgs;
 
     if (parseInt(args[1]) > 120) {
       ctx.reply(`The timeout is too big, current limit is: ${60}`);
@@ -41,7 +43,7 @@ module.exports = {
       }
     }
 
-    function executeBombing(ls) {
+    function executeBombing(ls: ChildProcessWithoutNullStreams) {
       let amount = 0;
       ls.stdout.on('data', (data) => {
         const split = String(data).split(/\r?\n/);
@@ -66,3 +68,5 @@ module.exports = {
     }
   },
 };
+
+export default sms;

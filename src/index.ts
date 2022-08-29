@@ -1,4 +1,6 @@
-const Bot = require('./src/Bot');
+import 'dotenv/config';
+import Bot from './Bot';
+
 const bot = new Bot();
 
 process.title = 'picontrolbot';

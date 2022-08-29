@@ -1,21 +1,22 @@
-const getIP = require('external-ip')();
-const ipLocal = require('ip');
-const os = require('os');
+import ipLocal from 'ip';
+import os from 'os';
+import command from '../types/command';
+import { promisify } from 'util';
 
-module.exports = {
+const getIP = promisify(require('external-ip')());
+
+const ip: command = {
   name: 'ip',
   description: 'Get the ip of the system',
   public: true,
-  execute(ctx) {
-    getIP((err, ip) => {
-      if (err) {
-        throw err;
-      }
-      ctx.replyWithMarkdown(
-        `Local IP: \`${ipLocal.address()}\`\nPublic IP: \`${ip}\`\n\`ssh ${
-          os.userInfo().username
-        }@${ip}\``
-      );
-    });
+  async execute(ctx) {
+    const ip = await getIP();
+    ctx.replyWithMarkdown(
+      `Local IP: \`${ipLocal.address()}\`\nPublic IP: \`${ip}\`\n\`ssh ${
+        os.userInfo().username
+      }@${ip}\``
+    );
   },
 };
+
+export default ip;

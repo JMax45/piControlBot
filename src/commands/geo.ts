@@ -1,16 +1,20 @@
-const geoip = require('geoip-lite');
-const { promisify } = require('util');
+import command from '../types/command';
+import geoip from 'geoip-lite';
+import { promisify } from 'util';
 
 const getIP = promisify(require('external-ip')());
 
-module.exports = {
+const geo: command = {
   name: 'geo',
   description: 'Get location',
   public: true,
   async execute(ctx) {
-    var ip = await getIP();
-    var geo = geoip.lookup(ip);
+    const ip = await getIP();
+    const geo = geoip.lookup(ip);
+    if (!geo) return await ctx.reply('Failed geoip lookup');
     await ctx.reply(JSON.stringify(geo, null, 4));
     await ctx.replyWithLocation(geo.ll[0], geo.ll[1]);
   },
 };
+
+export default geo;
