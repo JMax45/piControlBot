@@ -1,9 +1,7 @@
 import ipLocal from 'ip';
 import os from 'os';
 import command from '../types/command';
-import { promisify } from 'util';
-
-const getIP = promisify(require('external-ip')());
+import getIP from '../helpers/getIP';
 
 const ip: command = {
   name: 'ip',

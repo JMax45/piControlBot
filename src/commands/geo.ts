@@ -1,8 +1,6 @@
 import command from '../types/command';
 import geoip from 'geoip-lite';
-import { promisify } from 'util';
-
-const getIP = promisify(require('external-ip')());
+import getIP from '../helpers/getIP';
 
 const geo: command = {
   name: 'geo',
