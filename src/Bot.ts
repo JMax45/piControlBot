@@ -7,22 +7,6 @@ import Responses from './Responses';
 class Bot {
   telegraf: Telegraf<TelegrafContext>;
   constructor() {
-    // Dotenv
-    require('dotenv').config();
-
-    try {
-      const pmConfig = JSON.parse(process.env.PM_CONFIG!);
-      const ProcessManager = require('jz-process-manager');
-      const pm = new ProcessManager(
-        pmConfig.server_url,
-        pmConfig.application_id,
-        pmConfig.auth_key,
-        100
-      );
-    } catch (error) {
-      console.log('Process manager skipped');
-    }
-
     // Telegraf
     this.telegraf = new Telegraf(process.env.TOKEN!);
 

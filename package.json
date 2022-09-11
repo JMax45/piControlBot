@@ -16,12 +16,11 @@
   "license": "MIT",
   "dependencies": {
     "byteroo": "^1.1.0",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.2",
     "external-ip": "^2.3.1",
     "geoip-lite": "^1.4.6",
     "google-tts-api": "0.0.4",
     "ip": "^1.1.5",
-    "jz-process-manager": "0.0.5",
     "qrcode": "^1.4.4",
     "systeminformation": "^5.6.4",
     "telegraf": "^3.38.0",
